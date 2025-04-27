@@ -1,0 +1,41 @@
+Module tb_up_down_counter;
+ reg clk;
+ reg reset;
+ reg up_down;
+ wire [3:0] counter;
+ // Instantiate the counter
+ up_down_counter uut (
+ .clk(clk),
+ .reset(reset),
+ .up_down(up_down),
+ .counter(counter)
+ );
+ // Clock generation
+ always #5 clk = ~clk;  // 10ns period clock
+ initial begin
+ // Initialize inputs
+ clk = 0;
+ reset = 0;
+ up_down = 0;
+// Apply synchronous reset
+        #10 reset = 1;
+        #10 reset = 0;
+        // Test counting up
+        up_down = 1;
+        #100;
+        // Test counting down
+        up_down = 0;
+        #100;
+        // Apply another reset
+        reset = 1;
+        #10 reset = 0;
+        // Test counting up again
+        up_down = 1;
+        #50;
+        // Finish the simulation
+        $stop;
+    end
+    initial begin
+        $monitor(“At time %0t, counter = %0d”, $time, counter);
+    end
+ endmodule

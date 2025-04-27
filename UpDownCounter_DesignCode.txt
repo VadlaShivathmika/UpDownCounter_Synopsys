@@ -1,0 +1,19 @@
+Module updowncounter (
+    input clk,
+    input reset,
+    input up_down,
+    input load,
+    input [3:0] data,
+    output reg[3:0] counter);
+ always @(posedge clk) begin
+    if (reset) begin
+        counter <=4’b0000;  
+    end else if (load) begin
+        counter <= data;
+    end else if (up_down) begin
+        counter <= counter + 1;
+    end else begin
+        counter <= counter – 1;
+    end
+ end
+ endmodule
